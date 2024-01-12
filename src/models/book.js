@@ -4,17 +4,17 @@ const bookSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    minLength: 2,
+    minlength: 2,
   },
   author: {
     type: String,
     required: true,
-    minLength: 2,
+    minlength: 2,
   },
-  year_release: {
+  date: {
     type: Number,
     required: true,
+    minlength: 2,
   },
 });
-
-module.exports = mongoose.model("book", bookSchema);
+module.exports = mongoose.model("books", bookSchema);

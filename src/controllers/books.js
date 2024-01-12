@@ -1,61 +1,61 @@
-const Book = require("../models/book");
+const books = require("../models/books");
 
-const getBooks = (request, response) => {
-  return Book.find({})
-    .then((data) => {
-      response.status(200).send(data);
+const getBooks = (req, res) => {
+  books.find({})
+  .then((books) => {
+    res.status(200).send(books);
+  })
+  .catch((e) => {
+    res.status(500).send(e.message);
+  });
+};
+
+const getUBookById = (req, res) => {
+  const { bookID } = req.params;
+  books.findById(bookID)
+    .then((book) => {
+      res.status(200).send(book);
     })
     .catch((e) => {
-      response.status(500).send(e.message);
+      res.status(500).send(e.message);
     });
 };
 
-const getBook = (request, response) => {
-  const { book_id } = request.params;
-  return Book.findById(book_id)
+const createBook = async (req, res) => {
+  try {
+    const book = await books.create({ ...req.body });
+    res.status(201).send(book);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const updateBook = (req, res) => {
+  const { bookID } = req.params;
+  const data = req.body;
+  books.findByIdAndUpdate(bookID, data, { new: true, runValidators: true })
     .then((book) => {
-      response.status(200).send(book);
+      res.status(200).send(book);
     })
     .catch((e) => {
-      response.status(500).send(e.message);
+      res.status(500).send(e.message);
     });
 };
 
-const createBook = (request, response) => {
-  return Book.create({ ...request.body })
-    .then((book) => {
-      response.status(201).send(book);
+const deleteBook = (req, res) => {
+  const { bookID } = req.params;
+  books.findByIdAndDelete(bookID)
+    .then(() => {
+      res.status(200).send("Book deleted");
     })
     .catch((e) => {
-      response.status(500).send(e.message);
-    });
-};
-
-const updateBook = (request, response) => {
-  const { book_id } = request.params;
-  return Book.findByIdAndUpdate(book_id, { ...request.body })
-    .then((book) => {
-      response.status(200).send(book);
-    })
-    .catch((e) => {
-      response.status(500).send(e.message);
-    });
-};
-
-const deleteBook = (request, response) => {
-  const { book_id } = request.params;
-  return Book.findByIdAndDelete(book_id)
-    .then((book) => {
-      response.status(200).send(book);
-    })
-    .catch((e) => {
-      response.status(500).send(e.message);
+      res.status(500).send(e.message);
     });
 };
 
 module.exports = {
   getBooks,
-  getBook,
+  getUBookById,
   createBook,
   updateBook,
   deleteBook,

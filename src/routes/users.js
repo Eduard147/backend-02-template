@@ -1,30 +1,21 @@
-const router = require("express").Router();
+const router = require('express').Router()
+
 const {
-  getUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
+    getUsers,
+    getUserById, 
+    createUser,
+    updateUser,
+    deleteUser,
+    // takeBook,
+    // returnBook
 } = require("../controllers/users");
 
- const {
-   getBooks,
-   getBook,
-   createBook,
-   updateBook,
-   deleteBook,
- } = require("../controllers/books");
-
-router.get("/users", getUsers);
-router.get("/users/:user_id", getUser);
-router.post("/users", createUser);
-router.patch("/users/:user_id", updateUser);
-router.delete("/users/:user_id", deleteUser);
-
- router.get("/books", getBooks);
- router.get("/books/:book_id", getBook);
- router.post("/books", createBook);
- router.patch("/books/:book_id", updateBook);
- router.delete("/books/:book_id", deleteBook);
+router.get('/users', getUsers);
+router.get('/users/:userID', getUserById);
+router.post('/users', createUser);
+router.patch('/users/:userID', updateUser);
+router.delete('/users/:userID', deleteUser);
+// router.post('/users/:userID/books/:bookID', takeBook);
+// router.post('/users/:userID/books/:bookID', returnBook);
 
 module.exports = router;
